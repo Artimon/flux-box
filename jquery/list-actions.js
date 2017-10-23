@@ -5,6 +5,9 @@ var ListActions = (function (Dispatcher) {
 	'use strict';
 
 	return {
+		/**
+		 * @param {{ name: string }} item
+		 */
 		add: function (item) {
 			Dispatcher.dispatch({
 				eventName: 'new-item',

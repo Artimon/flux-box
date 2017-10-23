@@ -12,9 +12,16 @@ var Dispatcher = (function ($) {
 	 * @type {{}}
 	 */
 	return {
+		/**
+		 * @param {function} callback
+		 */
 		register: function (callback) {
 			callbacks.push(callback);
 		},
+
+		/**
+		 * @param {*} payload
+		 */
 		dispatch: function (payload) {
 			$.each(callbacks, function (index, callback) {
 				callback(payload);
