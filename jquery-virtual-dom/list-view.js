@@ -1,13 +1,19 @@
-/* global jQuery */
+/* global jQuery, virtualDom */
 
-(function ($) {
+(function($, virtualDom) {
 
 	'use strict';
+
+	var h = virtualDom.h, // Hyperscript
+		diff = virtualDom.diff,
+		patch = virtualDom.patch,
+		create = virtualDom.create;
 
 	$.fn.listView = function () {
 		var view = new ListView(this);
 
 		view.render();
+		view.createBindings();
 
 		return this;
 	};
@@ -68,7 +74,10 @@
 	 * A regular view method.
 	 */
 	ListView.prototype.createNewItem = function () {
-		var value = this.$element.find('input').val() || 'Samantha';
+		var $input = this.$element.find('input'),
+			value = $input.val() || 'Samantha';
+
+		$input.val('');
 
 		this.actionAddItem({ name: value });
 	};
@@ -77,8 +86,9 @@
 	 * The regular view render method.
 	 */
 	ListView.prototype.render = function () {
-		var self = this,
-			html;
+		var html,
+			hyperScript,
+			patches;
 
 		html = Mustache.render(`
 				<div>
@@ -103,8 +113,26 @@
 				</div>
 			`, this.items);
 
-		this.$element.html(html)
-			.find('.action-new').on('click', function () {
+		hyperScript = eval( // Eval is evil. Is there any client-side plugin to do this directly?
+			dom2hscript.parseHTML(html)
+		);
+
+		if (this.tree) {
+			patches = diff(this.tree, hyperScript);
+			this.rootNode = patch(this.rootNode, patches);
+			this.tree = hyperScript;
+		}
+		else {
+			this.tree = hyperScript;
+			this.rootNode = create(this.tree);
+			this.$element.html(this.rootNode);
+		}
+	};
+
+	ListView.prototype.createBindings = function() {
+		var self = this;
+
+		this.$element.find('.action-new').on('click', function () {
 			self.createNewItem();
 		}).end()
 			.find('.action-clear').on('click', function () {
@@ -112,4 +140,4 @@
 		});
 	};
 
-})(jQuery);
+})(jQuery, virtualDom);

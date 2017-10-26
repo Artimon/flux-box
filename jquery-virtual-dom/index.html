@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Flux Pattern</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css">
+</head>
+<body style="padding-top: 60px;">
+<div class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<a href="../index.html" class="navbar-brand">Flux Demos</a>
+		</div>
+		<div class="navbar-collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="https://www.bootstrapcdn.com/bootswatch/">
+						Using Bootswatch via Bootstrap CDN
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<h1>jQuery Flux (Virtual DOM)</h1>
+			<p>
+				To prevent full re-rendering we're adding a
+				<a href="https://github.com/Matt-Esch/virtual-dom">virtual dom</a>.
+			</p>
+			<p>
+				Just as the <a href="../jquery/index.html">full jQuery implementation</a>
+				we do render via <a href="https://mustache.github.io/">mustache</a>, but
+				then transform the output-html into
+				<a href="https://github.com/AkeemMcLennon/dom2hscript">HyperScript</a> to
+				be able to create a diff within the virtual dom and only patch into the
+				page what has been changed.
+			</p>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<h2>Contents and Implementation</h2>
+		</div>
+
+		<div class="col-md-3">
+			<div class="list-group">
+				<a class="list-group-item" href="dispatcher.js">Dispatcher</a>
+				<a class="list-group-item" href="list-actions.js">List Actions</a>
+				<a class="list-group-item" href="list-store.js">List Store</a>
+				<a class="list-group-item" href="list-view.js">
+					<span class="badge">changed</span>
+					List View
+				</a>
+			</div>
+		</div>
+
+		<div class="col-md-6 col-md-offset-3">
+			<list-view></list-view>
+		</div>
+	</div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="../vendor/microevent.js"></script>
+<script src="../vendor/mustache.js"></script>
+<script src="../vendor/dom2hscript.min.js"></script>
+<script src="../vendor/virtual-dom.js"></script>
+<script src="dispatcher.js"></script>
+<script src="list-actions.js"></script>
+<script src="list-store.js"></script>
+<script src="list-view.js"></script>
+
+<script>
+	$('list-view').listView();
+</script>
+
+</body>
+</html>

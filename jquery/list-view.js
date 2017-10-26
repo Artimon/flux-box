@@ -13,6 +13,8 @@
 		this.on('remove', function () {
 			view.unmount();
 		});
+
+		return this;
 	};
 
 	/**
